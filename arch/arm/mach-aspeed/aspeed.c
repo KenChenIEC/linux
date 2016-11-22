@@ -182,6 +182,25 @@ static void __init do_palmetto_setup(void)
 	writel(0x01C0007F, AST_IO(AST_BASE_SCU | 0x88));
 }
 
+static void __init do_daan_setup(void)
+{
+    do_common_setup();
+
+    /* Setup PNOR address mapping for 32M flash */
+    writel(0x30000E00, AST_IO(AST_BASE_LPC | 0x88));
+    writel(0xFE0001FF, AST_IO(AST_BASE_LPC | 0x8C));
+
+    /* GPIO setup */
+    writel(0x13008CE7, AST_IO(AST_BASE_GPIO | 0x00));
+    writel(0x0370E677, AST_IO(AST_BASE_GPIO | 0x04));
+    writel(0xDF48F7FF, AST_IO(AST_BASE_GPIO | 0x20));
+    writel(0xC738F202, AST_IO(AST_BASE_GPIO | 0x24));
+
+    /* SCU setup */
+    writel(0x01C0007F, AST_IO(AST_BASE_SCU | 0x88));
+}
+
+
 static void __init do_garrison_setup(void)
 {
 	do_common_setup();
@@ -230,6 +249,8 @@ static void __init aspeed_init_early(void)
 		do_barreleye_setup();
 	if (of_machine_is_compatible("tyan,palmetto-bmc"))
 		do_palmetto_setup();
+	if (of_machine_is_compatible("tyan,daan-bmc"))
+		do_daan_setup();
 	if (of_machine_is_compatible("ibm,garrison-bmc"))
 		do_garrison_setup();
 
