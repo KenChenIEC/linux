@@ -191,10 +191,10 @@ static void __init do_daan_setup(void)
     writel(0xFE0001FF, AST_IO(AST_BASE_LPC | 0x8C));
 
     /* GPIO setup */
-    writel(0x13008CE7, AST_IO(AST_BASE_GPIO | 0x00));
-    writel(0x0370E677, AST_IO(AST_BASE_GPIO | 0x04));
-    writel(0xDF48F7FF, AST_IO(AST_BASE_GPIO | 0x20));
-    writel(0xC738F202, AST_IO(AST_BASE_GPIO | 0x24));
+    writel(0x23fbf0b0, AST_IO(AST_BASE_GPIO | 0x00));
+    writel(0x21076030, AST_IO(AST_BASE_GPIO | 0x04));
+    writel(0x1b00afff, AST_IO(AST_BASE_GPIO | 0x20));
+    writel(0x8400000c, AST_IO(AST_BASE_GPIO | 0x24));
 
     /* SCU setup */
     writel(0x01C0007F, AST_IO(AST_BASE_SCU | 0x88));
