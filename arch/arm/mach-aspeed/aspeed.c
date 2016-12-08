@@ -45,10 +45,6 @@ static void __init do_common_setup(void)
 	/* Set UART routing */
 	writel(0x00000000, AST_IO(AST_BASE_LPC | 0x9c));
 
-	/* TODO: This should go in the GPIO driver device tree bindings */
-	writel(0x01C000FF, AST_IO(AST_BASE_SCU | 0x88));
-	writel(0xC1C000FF, AST_IO(AST_BASE_SCU | 0x8c));
-
 	/* Setup scratch registers */
 	writel(0x00000042, AST_IO(AST_BASE_LPC | 0x170));
 	writel(0x00008000, AST_IO(AST_BASE_LPC | 0x174));
@@ -132,8 +128,6 @@ static void __init do_garrison_setup(void)
 
 static void __init do_ast2500evb_setup(void)
 {
-	unsigned long reg;
-
 	/* Set strap to RGMII for dedicated PHY networking */
 	writel(BIT(6) | BIT(7), AST_IO(AST_BASE_SCU | 0x70));
 }
@@ -170,6 +164,28 @@ static void __init do_zaius_setup(void)
 	}
 }
 
+static void __init do_witherspoon_setup(void)
+{
+	do_common_setup();
+
+	/* Setup PNOR address mapping for 64M flash
+	 *
+	 *   ADRBASE: 0x3000 (0x30000000)
+	 *   HWMBASE: 0x0C00 (0x0C000000)
+	 *  ADDRMASK: 0xFC00 (0xFC000000)
+	 *   HWNCARE: 0x03FF (0x03FF0000)
+	 *
+	 * Mapping appears at 0x60300fc000000 on the host
+	 */
+	writel(0x30000C00, AST_IO(AST_BASE_LPC | 0x88));
+	writel(0xFC0003FF, AST_IO(AST_BASE_LPC | 0x8C));
+
+	/* Set SPI1 CE1 decoding window to 0x34000000 */
+	writel(0x70680000, AST_IO(AST_BASE_SPI | 0x34));
+
+	/* Set SPI1 CE0 decoding window to 0x30000000 */
+	writel(0x68600000, AST_IO(AST_BASE_SPI | 0x30));
+}
 
 #define SCU_PASSWORD	0x1688A8A8
 
@@ -180,18 +196,6 @@ static void __init aspeed_init_early(void)
 
 	/* Reset AHB bridges */
 	writel(0x02, AST_IO(AST_BASE_SCU | 0x04));
-
-	/* Enable UART4 RXD4, TXD4, NRI4, NDCD4, NCTS4 */
-	/* TODO: This should be pinmux. Also, why are we enabling uart4? */
-	writel(0xcb000000, AST_IO(AST_BASE_SCU | 0x80));
-
-	/* Enable
-	 *  - UART1 RXD1, RXD1, NRTS1, NDTR1, NRI1, NDSR1, NDCD1, NCTS1.
-	 *  - VGA DDCDAT, DDCCLK, VGAVS, VGAHS.
-	 *  - NAND flash FLWP#, FLBUSY#
-	 */
-	/* TODO: This should be pinmux */
-	writel(0x00fff0c0, AST_IO(AST_BASE_SCU | 0x84));
 
 	/* Enables all the clocks except D2CLK, USB1.1 Host, USB1.1, LHCLK */
 	writel(0x10CC5E80, AST_IO(AST_BASE_SCU | 0x0c));
@@ -216,6 +220,8 @@ static void __init aspeed_init_early(void)
 		do_ast2500evb_setup();
 	if (of_machine_is_compatible("ingrasys,zaius-bmc"))
 		do_zaius_setup();
+	if (of_machine_is_compatible("ibm,witherspoon-bmc"))
+		do_witherspoon_setup();
 }
 
 static void __init aspeed_map_io(void)

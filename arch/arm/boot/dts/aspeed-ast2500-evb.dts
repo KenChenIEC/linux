@@ -30,8 +30,12 @@
 
 &spi1 {
 	status = "okay";
-	pnor@0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_spi1_default>;
+
+	flash@0 {
 		status = "okay";
+		label = "pnor";
 	};
 };
 

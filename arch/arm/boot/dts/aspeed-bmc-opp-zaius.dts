@@ -20,6 +20,26 @@
 		reg = <0x80000000 0x40000000>;
 	};
 
+	onewire0 {
+		compatible = "w1-gpio";
+		gpios = <&gpio ASPEED_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
+	};
+
+	onewire1 {
+		compatible = "w1-gpio";
+		gpios = <&gpio ASPEED_GPIO(H, 1) GPIO_ACTIVE_HIGH>;
+	};
+
+	onewire2 {
+		compatible = "w1-gpio";
+		gpios = <&gpio ASPEED_GPIO(H, 2) GPIO_ACTIVE_HIGH>;
+	};
+
+	onewire3 {
+		compatible = "w1-gpio";
+		gpios = <&gpio ASPEED_GPIO(H, 3) GPIO_ACTIVE_HIGH>;
+	};
+
 	leds {
 		compatible = "gpio-leds";
 
@@ -58,8 +78,9 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_spi1_default>;
 
-	pnor@0 {
+	flash@0 {
 		status = "okay";
+		label = "pnor";
 	};
 };
 
@@ -190,8 +211,23 @@
 &i2c7 {
 	status = "okay";
 
-	/* MUX PCA9541A (other master: CPU0 PCIe 1)
-	 *   ADM1272 PMBUS @10h
+	pca9541a@70 {
+		compatible = "nxp,pca9541";
+		reg = <0x70>;
+
+		i2c-arb {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			hotswap@10 {
+				compatible = "ti,lm5066";
+				reg = <0x10>;
+			};
+		};
+	};
+
+	/* Master selector PCA9541A @70h (other master: CPU0)
+	 *   LM5066I PMBUS @10h
 	 */
 	/* 12V SMPS Q54SH12050NNDH @61h */
 	/* CPU0 VR ISL68137 0.7V, 0.96V PMBUS @64h */
