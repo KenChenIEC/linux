@@ -165,17 +165,6 @@ static void __init do_zaius_setup(void)
 }
 static void __init do_lobo_setup(void)
 {
-    //do_common_setup();
-
-    /* Setup PNOR address mapping for 64M flash
-     *
-     *   ADRBASE: 0x3000 (0x30000000)
-     *   HWMBASE: 0x0C00 (0x0C000000)
-     *  ADDRMASK: 0xFC00 (0xFC000000)
-     *   HWNCARE: 0x03FF (0x03FF0000)
-     *
-     * Mapping appears at 0x60300fc000000 on the host
-     */
 	/* Set GPIO */
 	writel(0x79ff40b8, AST_IO(AST_BASE_GPIO | 0x00));
 	writel(0x1a004000, AST_IO(AST_BASE_GPIO | 0x04));
