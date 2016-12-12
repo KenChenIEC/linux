@@ -165,7 +165,7 @@ static void __init do_zaius_setup(void)
 }
 static void __init do_lobo_setup(void)
 {
-    do_common_setup();
+    //do_common_setup();
 
     /* Setup PNOR address mapping for 64M flash
      *
@@ -176,14 +176,22 @@ static void __init do_lobo_setup(void)
      *
      * Mapping appears at 0x60300fc000000 on the host
      */
-    writel(0x30000C00, AST_IO(AST_BASE_LPC | 0x88));
-    writel(0xFC0003FF, AST_IO(AST_BASE_LPC | 0x8C));
+	/* Set GPIO */
+	writel(0x79ff40b8, AST_IO(AST_BASE_GPIO | 0x00));
+	writel(0x1a004000, AST_IO(AST_BASE_GPIO | 0x04));
+	writel(0x1ec4574e, AST_IO(AST_BASE_GPIO | 0x20));
+    writel(0x1e000000, AST_IO(AST_BASE_GPIO | 0x24));
+    
+
+
+	writel(0x3000fff8, AST_IO(AST_BASE_LPC | 0x88));
+    writel(0xfff8f007, AST_IO(AST_BASE_LPC | 0x8C));
 
     /* Set SPI1 CE1 decoding window to 0x34000000 */
-    writel(0x70680000, AST_IO(AST_BASE_SPI | 0x34));
+    writel(0x70640000, AST_IO(AST_BASE_SPI | 0x34));
 
     /* Set SPI1 CE0 decoding window to 0x30000000 */
-    writel(0x68600000, AST_IO(AST_BASE_SPI | 0x30));
+    writel(0x64600000, AST_IO(AST_BASE_SPI | 0x30));
 }
 
 static void __init do_witherspoon_setup(void)
