@@ -20,6 +20,17 @@
 		reg = <0x80000000 0x40000000>;
 	};
 
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		flash_memory: region@94000000 {
+			no-map;
+			reg = <0x94000000 0x04000000>; /* 64M */
+		};
+	};
+
 	onewire0 {
 		compatible = "w1-gpio";
 		gpios = <&gpio ASPEED_GPIO(H, 0) GPIO_ACTIVE_HIGH>;
@@ -45,22 +56,22 @@
 
 		sys_boot_status {
 			label = "System boot status";
-			gpios = <&gpio ASPEED_GPIO(H, 4) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(D, 5) GPIO_ACTIVE_LOW>;
 		};
 
 		attention {
 			label = "Attention";
-			gpios = <&gpio ASPEED_GPIO(H, 5) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(D, 6) GPIO_ACTIVE_LOW>;
 		};
 
 		plt_fault {
 			label = "Platform fault";
-			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(D, 7) GPIO_ACTIVE_LOW>;
 		};
 
 		hdd_fault {
 			label = "Onboard drive fault";
-			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_LOW>;
 		};
 	};
 };
@@ -96,6 +107,23 @@
 	flash@0 {
 		status = "okay";
 	};
+};
+
+&uart1 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_txd1_default
+		     &pinctrl_rxd1_default>;
+};
+
+&lpc_ctrl {
+	status = "okay";
+	memory-region = <&flash_memory>;
+	flash = <&spi1>;
+};
+
+&mbox {
+	status = "okay";
 };
 
 &uart5 {
