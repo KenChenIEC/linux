@@ -131,7 +131,61 @@ static void __init do_ast2500evb_setup(void)
 	/* Set strap to RGMII for dedicated PHY networking */
 	writel(BIT(6) | BIT(7), AST_IO(AST_BASE_SCU | 0x70));
 }
+static void __init do_lanyang_setup(void)
+{
+	unsigned long reg;
+    unsigned long board_rev;
+    /* D3 in GPIOA/B/C/D direction and data registers */
+    unsigned long phy_reset_mask = BIT(27);
 
+    do_common_setup();
+
+    /* Read BOARD_REV[4:0] fuses from GPIOM[7:3] */
+    reg = readl(AST_IO(AST_BASE_GPIO | 0x78));
+    board_rev = (reg >> 3) & 0x1F;
+
+    /* EVT1 hacks */
+    if (board_rev == 0) {
+        /* Disable GPIO I, G/AB pulldowns due to weak driving buffers */
+        reg = readl(AST_IO(AST_BASE_SCU | 0x8C));
+        writel(reg | BIT(24) | BIT(22), AST_IO(AST_BASE_SCU | 0x8C));
+    }
+
+    /* Disable GPIO H/AC pulldowns to float 1-wire interface pins */
+    reg = readl(AST_IO(AST_BASE_SCU | 0x8C));
+    writel(reg | BIT(23), AST_IO(AST_BASE_SCU | 0x8C));
+
+    /* Assert MAC2 PHY hardware reset */
+    /* Set pin low */
+    reg = readl(AST_IO(AST_BASE_GPIO | 0x00));
+    writel(reg & ~phy_reset_mask, AST_IO(AST_BASE_GPIO | 0x00));
+    /* Enable pin for output */
+    reg = readl(AST_IO(AST_BASE_GPIO | 0x04));
+    writel(reg | phy_reset_mask, AST_IO(AST_BASE_GPIO | 0x04));
+    udelay(3);
+    /* Set pin high */
+    reg = readl(AST_IO(AST_BASE_GPIO | 0x00));
+    writel(reg | phy_reset_mask, AST_IO(AST_BASE_GPIO | 0x00));
+
+    /* Setup PNOR address mapping for 64M flash
+     *
+     *   ADRBASE: 0x3000 (0x30000000)
+     *   HWMBASE: 0x0C00 (0x0C000000)
+     *  ADDRMASK: 0xFC00 (0xFC000000)
+     *   HWNCARE: 0x03FF (0x03FF0000)
+     *
+     * Mapping appears at 0x60300fc000000 on the host
+     */
+    writel(0x30000C00, AST_IO(AST_BASE_LPC | 0x88));
+    writel(0xFC0003FF, AST_IO(AST_BASE_LPC | 0x8C));
+
+    /* Set SPI1 CE1 decoding window to 0x34000000 */
+    writel(0x70680000, AST_IO(AST_BASE_SPI | 0x34));
+
+    /* Set SPI1 CE0 decoding window to 0x30000000 */
+    writel(0x68600000, AST_IO(AST_BASE_SPI | 0x30));
+
+}
 static void __init do_zaius_setup(void)
 {
 	unsigned long reg;
@@ -245,6 +299,8 @@ static void __init aspeed_init_early(void)
 		do_zaius_setup();
 	if (of_machine_is_compatible("ibm,witherspoon-bmc"))
 		do_witherspoon_setup();
+	if (of_machine_is_compatible("ibm,lanyang-bmc"))
+		do_lanyang_setup();
 }
 
 static void __init aspeed_map_io(void)
