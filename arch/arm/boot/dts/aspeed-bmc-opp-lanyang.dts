@@ -158,11 +158,11 @@
 	status = "okay";
 
 	rtc@68 {
-		compatible = "nxp,pcf8523";
+		compatible = "dallas,ds3231";
 		reg = <0x68>;
 	};
 
-	/* RTC PCF8523 @68h	 */
+	/* RTC DS3231 @68h	 */
 };
 
 &i2c1 {
@@ -249,15 +249,15 @@
 	status = "okay";
 
     tmp75@48 {
-        compatible = "ti,lm75";
+        compatible = "ti,tmp75";
         reg = <0x48>;
     };
     tmp75@49 {
-        compatible = "ti,lm75";
+        compatible = "ti,tmp75";
         reg = <0x49>;
     };
     tmp75@4A {
-        compatible = "ti,lm75";
+        compatible = "ti,tmp75";
         reg = <0x4A>;
     };
 
