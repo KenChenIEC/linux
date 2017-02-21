@@ -56,31 +56,31 @@
 
 		sys_boot_status {
 			label = "System boot status";
-			gpios = <&gpio ASPEED_GPIO(B, 6) GPIO_ACTIVE_HIGH>;
+			gpios = <&gpio ASPEED_GPIO(B, 6) GPIO_ACTIVE_LOW>;
 		};
 
 		attention {
 			label = "Attention";
-			gpios = <&gpio ASPEED_GPIO(B, 7) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(B, 7) GPIO_ACTIVE_HIGH>;
 		};
 
 		plt_fault {
 			label = "Platform fault";
-			gpios = <&gpio ASPEED_GPIO(B, 1) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(B, 1) GPIO_ACTIVE_HIGH>;
 		};
 
 		hdd_fault {
 			label = "Onboard drive fault";
-			gpios = <&gpio ASPEED_GPIO(B, 3) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(B, 3) GPIO_ACTIVE_HIGH>;
 		};
 		bmc_err {
 			lable = "BMC fault";
-			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_HIGH>;
 		};
 
 		sys_err {
 			lable = "sys fault";
-			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_LOW>;
+			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
 		};
 	};
 };
