@@ -55,7 +55,7 @@
 		compatible = "gpio-leds";
 
 		sys_boot_status {
-			label = "System boot status";
+			label = "System_boot_status";
 			gpios = <&gpio ASPEED_GPIO(B, 6) GPIO_ACTIVE_LOW>;
 		};
 
@@ -65,21 +65,21 @@
 		};
 
 		plt_fault {
-			label = "Platform fault";
+			label = "Platform_fault";
 			gpios = <&gpio ASPEED_GPIO(B, 1) GPIO_ACTIVE_HIGH>;
 		};
 
 		hdd_fault {
-			label = "Onboard drive fault";
+			label = "Onboard_drive_fault";
 			gpios = <&gpio ASPEED_GPIO(B, 3) GPIO_ACTIVE_HIGH>;
 		};
 		bmc_err {
-			lable = "BMC fault";
+			lable = "BMC_fault";
 			gpios = <&gpio ASPEED_GPIO(H, 6) GPIO_ACTIVE_HIGH>;
 		};
 
 		sys_err {
-			lable = "sys fault";
+			lable = "sys_fault";
 			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
 		};
 	};
