@@ -157,7 +157,7 @@
 &adc0 {
 	status = "okay";
 	label = "BRD_VENDOR_ID";
-}
+};
 
 &i2c0 {
 	status = "okay";
