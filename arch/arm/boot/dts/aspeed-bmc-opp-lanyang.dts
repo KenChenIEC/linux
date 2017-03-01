@@ -154,6 +154,11 @@
 	pinctrl-0 = <&pinctrl_rgmii2_default &pinctrl_mdio2_default>;
 };
 
+&adc0 {
+	status = "okay";
+	label = "BRD_VENDOR_ID";
+}
+
 &i2c0 {
 	status = "okay";
 

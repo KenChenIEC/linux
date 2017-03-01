@@ -1121,12 +1121,86 @@
 				clocks = <&clk_apb>;
 				update-interval-ms = <1000>;
 				
-				chennel@1 {
-					status = "okay";
-					label = "BRD_VENDOR_ID";
+				adc0: chennel@0 {
+					reg = <0>;
 					pinctrl-names = "default";
 					pinctrl-0 = <&pinctrl_adc0_default>;
 				};
+                adc1: chennel@1 {
+                    reg = <1>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc1_default>;
+                };
+                adc2: chennel@2 {
+                    reg = <2>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc2_default>;
+                };
+                adc3: chennel@3 {
+                    reg = <3>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc3_default>;
+                };
+                adc4: chennel@4 {
+                    reg = <4>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc4_default>;
+                };
+                adc5: chennel@5 {
+                    reg = <5>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc5_default>;
+                };
+                adc6: chennel@6 {
+                    reg = <6>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc6_default>;
+                };
+                adc7: chennel@7 {
+                    reg = <7>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc7_default>;
+                };
+                adc8: chennel@8 {
+                    reg = <8>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc8_default>;
+                };
+                adc9: chennel@9 {
+                    reg = <9>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc9_default>;
+                };
+                adc10: chennel@10 {
+                    reg = <10>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc10_default>;
+                };
+                adc11: chennel@11 {
+                    reg = <11>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc11_default>;
+                };
+                adc12: chennel@12 {
+                    reg = <12>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc12_default>;
+                };
+                adc13: chennel@13 {
+                    reg = <13>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc13_default>;
+                };
+                adc14: chennel@14 {
+                    reg = <14>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc14_default>;
+                };
+                adc15: chennel@15 {
+                    reg = <15>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc15_default>;
+                };
 			};			
 
 			i2c: i2c@1e78a000 {
