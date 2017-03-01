@@ -1117,8 +1117,8 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 				compatible = "aspeed, ast2500-adc";
-				reg = <0x1e6e90000 0xB0>;
-				clocks <&clk_apb>;
+				reg = <0x1e6e9000 0xB0>;
+				clocks = <&clk_apb>;
 				update-interval-ms = <1000>;
 				
 				chennel@1 {
