@@ -1113,6 +1113,22 @@
 				status = "disabled";
 			};
 
+			adc@1e6e9000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "aspeed, ast2500-adc";
+				reg = <0x1e6e90000 0xB0>;
+				clocks <&clk_apb>;
+				update-interval-ms = <1000>;
+				
+				chennel@1 {
+					status = "okay";
+					label = "BRD_VENDOR_ID";
+					pinctrl-names = "default";
+					pinctrl-0 = <&pinctrl_adc0_default>;
+				};
+			};			
+
 			i2c: i2c@1e78a000 {
 				#address-cells = <1>;
 				#size-cells = <1>;
