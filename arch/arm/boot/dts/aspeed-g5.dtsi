@@ -1112,11 +1112,6 @@
 				no-loopback-test;
 				status = "disabled";
 			};
-			pwm-tacho-fixed-clk: pwm-tacho-fixed-clk@1e6e2008 {
-				compatible = "aspeed,g5-apb-clock"";
-				#clock-cells = <0>;
-				clock-frequency = <24000000>;
-			};
 
 			pwm-tacho: pwm-tacho-controller@1e786000 {
 				#address-cells = <1>;
@@ -1125,7 +1120,7 @@
 				pinctrl-names = "default";
 				pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
 				compatible = "aspeed,aspeed2500-pwm-tacho";
-				clocks = <&pwm-tacho-fixed-clk>;
+				clocks = <&clk_apb>;
 				type-values {
 						typem {
 							type = /bits/ 8 <0x00>;
