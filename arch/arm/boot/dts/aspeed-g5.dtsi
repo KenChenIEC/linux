@@ -1150,13 +1150,13 @@
 
 				fan-tach-channel {
 						fan-tach0 {
-							fan-ctrl-gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
+							fan-ctrl = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
 							fan-tach = /bits/ 8 <0x00>;
 							pwm-source = /bits/ 8 <0x00>;
 						};
 
 						fan-tach1 {
-							fan-ctrl-gpios = <&gpio ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
+							fan-ctrl = <&gpio ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
 							fan-tach = /bits/ 8 <0x01>;
 							pwm-source = /bits/ 8 <0x01>;
 						};
