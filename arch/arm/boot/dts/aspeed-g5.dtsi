@@ -1112,6 +1112,61 @@
 				no-loopback-test;
 				status = "disabled";
 			};
+			pwm-tacho-fixed-clk: fixedclk {
+				compatible = "fixed-clock";
+				#clock-cells = <0>;
+				clock-frequency = <24000000>;
+			};
+
+			pwm-tacho: pwm-tacho-controller@1e786000 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0x1E786000 0x1000>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
+				compatible = "aspeed,aspeed2500-pwm-tacho";
+				clocks = <&pwm-tacho-fixed-clk>;
+				type-values {
+						typem {
+							type = /bits/ 8 <0x00>;
+							pwm-period = /bits/ 8 <0x5F>;
+							pwm-clock-division-h = /bits/ 8 <0x00>;
+							pwm-clock-division-l = /bits/ 8 <0x05>;
+							fan-tach-type-enable;
+							fan-tach-clock-division = /bits/ 8 <0x00>;
+							fan-tach-mode-selection = /bits/ 8 <0x00>;
+							fan-tach-period = /bits/ 16 <0x1000>;
+						};
+				};
+
+				pwm-port {
+						pwm-port0 {
+							pwm-port = /bits/ 8 <0x00>;
+							type = /bits/ 8 <0x00>;
+							fan-ctrl = /bits/ 8 <0xFF>;
+						};
+
+						pwm-port1 {
+							pwm-port = /bits/ 8 <0x01>;
+							type = /bits/ 8 <0x00>;
+							fan-ctrl = /bits/ 8 <0xFF>;
+						};
+				};
+
+				fan-tach-channel {
+						fan-tach0 {
+							fan-ctrl-gpios = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
+							fan-tach = /bits/ 8 <0x00>;
+							pwm-source = /bits/ 8 <0x00>;
+						};
+
+						fan-tach1 {
+							fan-ctrl-gpios = <&gpio ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
+							fan-tach = /bits/ 8 <0x01>;
+							pwm-source = /bits/ 8 <0x01>;
+						};
+				};
+			};
 
 			adc@1e6e9000 {
 				#address-cells = <1>;

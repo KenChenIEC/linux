@@ -271,6 +271,15 @@ config SENSORS_ASPEED_ADC
 	  This driver can also be built as a module.  If so, the module
 	  will be called aspeed_adc.
 
+config SENSORS_ASPEED_PWM_TACH
+	tristate "ASPEED AST2400/AST2500 PWM and Fan tach driver"
+	help
+	  This driver provides support for ASPEED AST2400/AST2500 PWM
+	  and Fan Tacho controllers.
+
+	  This driver can also be built as a module. If so, the module
+	  will be called aspeed_pwm_tacho.
+
 config SENSORS_K8TEMP
 	tristate "AMD Athlon64/FX or Opteron temperature sensor"
 	depends on X86 && PCI
