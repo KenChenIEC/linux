@@ -1113,7 +1113,7 @@
 				status = "disabled";
 			};
 			pwm-tacho-fixed-clk: fixedclk {
-				compatible = "fixed-clock";
+				compatible = "aspeed,g5-ahb-clock";
 				#clock-cells = <0>;
 				clock-frequency = <24000000>;
 			};
