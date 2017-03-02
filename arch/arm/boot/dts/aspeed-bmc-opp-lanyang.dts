@@ -60,7 +60,7 @@
 		};
 
 		attention {
-			label = "Attention";
+			label = "Attention_locator";
 			gpios = <&gpio ASPEED_GPIO(B, 7) GPIO_ACTIVE_HIGH>;
 		};
 
@@ -79,7 +79,7 @@
 		};
 
 		sys_err {
-			lable = "sys_fault";
+			lable = "Sys_fault";
 			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
 		};
 	};
@@ -157,6 +157,10 @@
 &adc0 {
 	status = "okay";
 	label = "BRD_VENDOR_ID";
+};
+
+&adc1 {
+	label = "BMC_BRD_BMC_ID";
 };
 
 &i2c0 {
