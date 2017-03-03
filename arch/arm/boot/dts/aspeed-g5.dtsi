@@ -1,4 +1,5 @@
 #include "skeleton.dtsi"
+#include <dt-bindings/gpio/aspeed-gpio.h>
 
 / {
 	model = "Aspeed BMC";
