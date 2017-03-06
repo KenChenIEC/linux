@@ -163,6 +163,10 @@
 	label = "BMC_BRD_BMC_ID";
 };
 
+&pwm-tacho-controller {
+       status = "okay"
+}
+
 &i2c0 {
 	status = "okay";
 
