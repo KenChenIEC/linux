@@ -117,6 +117,11 @@
 					status = "disabled";
 				};
 
+				lhc: lhc@20 {
+					compatible = "aspeed,ast2500-lhc";
+					reg = <0x20 0x24 0x48 0x8>;
+				};
+
 				mbox: mbox@180 {
 					compatible = "aspeed,ast2500-mbox";
 					reg = <0x180 0x5c>;
@@ -1005,6 +1010,15 @@
 				reg = <0x1e6e202c 0x4>;
 			};
 
+			gfx: display@1e6e6000 {
+				compatible = "aspeed,ast2500-gfx", "syscon";
+				reg = <0x1e6e6000 0x1000>;
+				reg-io-width = <4>;
+
+				/* AST2520 doesn't have GFX, so disable */
+				status = "disabled";
+			};
+
 			sram@1e720000 {
 				compatible = "mmio-sram";
 				reg = <0x1e720000 0x9000>;	// 36K
@@ -1016,7 +1030,8 @@
 				compatible = "aspeed,ast2500-gpio";
 				reg = <0x1e780000 0x1000>;
 				interrupts = <20>;
-				gpio-ranges = <&pinctrl 0 0 220>;
+				interrupt-controller;
+				gpio-ranges = <&pinctrl 0 0 232>;
 			};
 
 			timer: timer@1e782000 {

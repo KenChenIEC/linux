@@ -10,6 +10,7 @@
 #include <linux/init.h>
 #include <linux/io.h>
 #include <linux/kernel.h>
+#include <linux/mfd/syscon.h>
 #include <linux/mutex.h>
 #include <linux/of.h>
 #include <linux/platform_device.h>
@@ -26,11 +27,12 @@
 
 #define ASPEED_G5_NR_PINS 232
 
-#define COND1		{ SCU90, BIT(6), 0, 0 }
-#define COND2		{ SCU94, GENMASK(1, 0), 0, 0 }
+#define COND1		{ ASPEED_IP_SCU, SCU90, BIT(6), 0, 0 }
+#define COND2		{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
 
-#define LHCR0		SIG_DESC_TO_REG(ASPEED_IP_LPC, 0xA0)
-#define GFX064		SIG_DESC_TO_REG(ASPEED_IP_GFX, 0x64)
+/* LHCR0 is offset from the end of the H8S/2168-compatible registers */
+#define LHCR0		0x20
+#define GFX064		0x64
 
 #define B14 0
 SSSF_PIN_DECL(B14, GPIOA0, MAC1LINK, SIG_DESC_SET(SCU80, 0));
@@ -101,8 +103,8 @@ SSSF_PIN_DECL(J20, GPIOB4, USBCKI, SIG_DESC_SET(HW_STRAP1, 23));
 
 #define H21 13
 #define H21_DESC	SIG_DESC_SET(SCU80, 13)
-SIG_EXPR_LIST_DECL_SINGLE(LPCPD, LPCPD, H21_DESC, SIG_DESC_BIT(SIORD30, 1, 0));
-SIG_EXPR_LIST_DECL_SINGLE(LPCSMI, LPCSMI, H21_DESC, SIG_DESC_SET(SIORD30, 1));
+SIG_EXPR_LIST_DECL_SINGLE(LPCPD, LPCPD, H21_DESC);
+SIG_EXPR_LIST_DECL_SINGLE(LPCSMI, LPCSMI, H21_DESC);
 MS_PIN_DECL(H21, GPIOB5, LPCPD, LPCSMI);
 FUNC_GROUP_DECL(LPCPD, H21);
 FUNC_GROUP_DECL(LPCSMI, H21);
@@ -325,7 +327,7 @@ FUNC_GROUP_DECL(RXD3, B19);
 
 FUNC_GROUP_DECL(GPIE6, A20, B19);
 
-#define LPCHC_DESC	SIG_DESC_SET(LHCR0, 0)
+#define LPCHC_DESC	SIG_DESC_IP_SET(ASPEED_IP_LPC, LHCR0, 0)
 #define LPCPLUS_DESC	SIG_DESC_SET(SCU90, 30)
 
 #define J19 40
@@ -481,9 +483,12 @@ SS_PIN_DECL(D18, GPIOH7, RXD6);
 
 FUNC_GROUP_DECL(UART6, A18, B18, D17, C17, A17, B17, A16, D18);
 
-#define SPI1_DESC		{ HW_STRAP1, GENMASK(13, 12), 1, 0 }
-#define SPI1DEBUG_DESC		{ HW_STRAP1, GENMASK(13, 12), 2, 0 }
-#define SPI1PASSTHRU_DESC	{ HW_STRAP1, GENMASK(13, 12), 3, 0 }
+#define SPI1_DESC \
+	{ ASPEED_IP_SCU, HW_STRAP1, GENMASK(13, 12), 1, 0 }
+#define SPI1DEBUG_DESC \
+	{ ASPEED_IP_SCU, HW_STRAP1, GENMASK(13, 12), 2, 0 }
+#define SPI1PASSTHRU_DESC \
+	{ ASPEED_IP_SCU, HW_STRAP1, GENMASK(13, 12), 3, 0 }
 
 #define C18 64
 SIG_EXPR_DECL(SYSCS, SPI1DEBUG, COND1, SPI1DEBUG_DESC);
@@ -647,10 +652,10 @@ FUNC_GROUP_DECL(I2C8, P2, R1);
 #define T2 88
 SSSF_PIN_DECL(T2, GPIOL0, NCTS1, SIG_DESC_SET(SCU84, 16));
 
-#define VPIOFF0_DESC    { SCU90, GENMASK(5, 4), 0, 0 }
-#define VPIOFF1_DESC    { SCU90, GENMASK(5, 4), 1, 0 }
-#define VPI24_DESC      { SCU90, GENMASK(5, 4), 2, 0 }
-#define VPIRSVD_DESC    { SCU90, GENMASK(5, 4), 3, 0 }
+#define VPIOFF0_DESC    { ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 0, 0 }
+#define VPIOFF1_DESC    { ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 1, 0 }
+#define VPI24_DESC      { ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 2, 0 }
+#define VPIRSVD_DESC    { ASPEED_IP_SCU, SCU90, GENMASK(5, 4), 3, 0 }
 #define VPI_24_RSVD_DESC	SIG_DESC_SET(SCU90, 5)
 
 #define T1 89
@@ -976,12 +981,12 @@ SS_PIN_DECL(E10, GPIOR7, MDIO1);
 
 FUNC_GROUP_DECL(MDIO1, D8, E10);
 
-#define VPOOFF0_DESC	{ SCU94, GENMASK(1, 0), 0, 0 }
-#define VPO_DESC	{ SCU94, GENMASK(1, 0), 1, 0 }
-#define VPOOFF1_DESC	{ SCU94, GENMASK(1, 0), 2, 0 }
-#define VPOOFF2_DESC	{ SCU94, GENMASK(1, 0), 3, 0 }
+#define VPOOFF0_DESC	{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 0, 0 }
+#define VPO_DESC	{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 1, 0 }
+#define VPOOFF1_DESC	{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 2, 0 }
+#define VPOOFF2_DESC	{ ASPEED_IP_SCU, SCU94, GENMASK(1, 0), 3, 0 }
 
-#define CRT_DVO_EN_DESC	SIG_DESC_SET(GFX064, 7)
+#define CRT_DVO_EN_DESC	SIG_DESC_IP_SET(ASPEED_IP_GFX, GFX064, 7)
 
 #define V20 144
 #define V20_DESC	SIG_DESC_SET(SCU8C, 0)
@@ -1455,16 +1460,16 @@ FUNC_GROUP_DECL(SIOSCI, AA21);
 FUNC_GROUP_DECL(ACPI, R22, R21, P22, P21, Y20, AB20, AB21, AA21);
 
 /* CRT DVO disabled, configured for single-edge mode */
-#define CRT_DVO_DS_DESC { GFX064, GENMASK(7, 6), 0, 0 }
+#define CRT_DVO_DS_DESC { ASPEED_IP_GFX, GFX064, GENMASK(7, 6), 0, 0 }
 
 /* CRT DVO disabled, configured for dual-edge mode */
-#define CRT_DVO_DD_DESC { GFX064, GENMASK(7, 6), 1, 1 }
+#define CRT_DVO_DD_DESC { ASPEED_IP_GFX, GFX064, GENMASK(7, 6), 1, 1 }
 
 /* CRT DVO enabled, configured for single-edge mode */
-#define CRT_DVO_ES_DESC { GFX064, GENMASK(7, 6), 2, 2 }
+#define CRT_DVO_ES_DESC { ASPEED_IP_GFX, GFX064, GENMASK(7, 6), 2, 2 }
 
 /* CRT DVO enabled, configured for dual-edge mode */
-#define CRT_DVO_ED_DESC { GFX064, GENMASK(7, 6), 3, 3 }
+#define CRT_DVO_ED_DESC { ASPEED_IP_GFX, GFX064, GENMASK(7, 6), 3, 3 }
 
 #define U21 204
 #define U21_DESC	SIG_DESC_SET(SCUA4, 20)
@@ -2318,9 +2323,34 @@ static struct pinctrl_desc aspeed_g5_pinctrl_desc = {
 static int aspeed_g5_pinctrl_probe(struct platform_device *pdev)
 {
 	int i;
+	struct regmap *map;
+	struct device_node *node;
 
 	for (i = 0; i < ARRAY_SIZE(aspeed_g5_pins); i++)
 		aspeed_g5_pins[i].number = i;
+
+	node = of_parse_phandle(pdev->dev.of_node, "aspeed,external-nodes", 0);
+	map = syscon_node_to_regmap(node);
+	of_node_put(node);
+	if (IS_ERR(map)) {
+		dev_warn(&pdev->dev, "No GFX phandle found, some mux configurations may fail\n");
+		map = NULL;
+	}
+	aspeed_g5_pinctrl_data.maps[ASPEED_IP_GFX] = map;
+
+	node = of_parse_phandle(pdev->dev.of_node, "aspeed,external-nodes", 1);
+	if (node) {
+		map = syscon_node_to_regmap(node->parent);
+		if (IS_ERR(map)) {
+			dev_warn(&pdev->dev, "LHC parent is not a syscon, some mux configurations may fail\n");
+			map = NULL;
+		}
+	} else {
+		dev_warn(&pdev->dev, "No LHC phandle found, some mux configurations may fail\n");
+		map = NULL;
+	}
+	of_node_put(node);
+	aspeed_g5_pinctrl_data.maps[ASPEED_IP_LPC] = map;
 
 	return aspeed_pinctrl_probe(pdev, &aspeed_g5_pinctrl_desc,
 			&aspeed_g5_pinctrl_data);

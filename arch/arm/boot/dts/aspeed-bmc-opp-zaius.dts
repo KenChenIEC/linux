@@ -25,9 +25,9 @@
 		#size-cells = <1>;
 		ranges;
 
-		flash_memory: region@94000000 {
+		flash_memory: region@98000000 {
 			no-map;
-			reg = <0x94000000 0x04000000>; /* 64M */
+			reg = <0x98000000 0x04000000>; /* 64M */
 		};
 	};
 
@@ -73,6 +73,18 @@
 			label = "Onboard drive fault";
 			gpios = <&gpio ASPEED_GPIO(AA, 2) GPIO_ACTIVE_LOW>;
 		};
+	};
+
+	fsi-master {
+		compatible = "ibm,fsi-master", "ibm,fsi-master-gpio";
+
+		status = "okay";
+
+		clock-gpios = <&gpio ASPEED_GPIO(C, 3) GPIO_ACTIVE_HIGH>;
+		data-gpios = <&gpio ASPEED_GPIO(C, 2) GPIO_ACTIVE_HIGH>;
+		trans-gpios = <&gpio ASPEED_GPIO(O, 6) GPIO_ACTIVE_HIGH>;
+		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
+		mux-gpios = <&gpio ASPEED_GPIO(P, 6) GPIO_ACTIVE_HIGH>;
 	};
 };
 
@@ -330,4 +342,12 @@
 
 &vuart {
 	status = "okay";
+};
+
+&gfx {
+	status = "okay";
+};
+
+&pinctrl {
+	aspeed,external-nodes = <&gfx &lhc>;
 };
