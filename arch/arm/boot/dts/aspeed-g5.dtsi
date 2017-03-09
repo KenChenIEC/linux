@@ -1,4 +1,5 @@
 #include "skeleton.dtsi"
+#include <dt-bindings/gpio/aspeed-gpio.h>
 
 / {
 	model = "Aspeed BMC";
@@ -115,11 +116,6 @@
 					compatible = "aspeed,ast2500-lpc-ctrl";
 					reg = <0x0 0x80>;
 					status = "disabled";
-				};
-
-				lhc: lhc@20 {
-					compatible = "aspeed,ast2500-lhc";
-					reg = <0x20 0x24 0x48 0x8>;
 				};
 
 				mbox: mbox@180 {
@@ -1010,15 +1006,6 @@
 				reg = <0x1e6e202c 0x4>;
 			};
 
-			gfx: display@1e6e6000 {
-				compatible = "aspeed,ast2500-gfx", "syscon";
-				reg = <0x1e6e6000 0x1000>;
-				reg-io-width = <4>;
-
-				/* AST2520 doesn't have GFX, so disable */
-				status = "disabled";
-			};
-
 			sram@1e720000 {
 				compatible = "mmio-sram";
 				reg = <0x1e720000 0x9000>;	// 36K
@@ -1030,8 +1017,7 @@
 				compatible = "aspeed,ast2500-gpio";
 				reg = <0x1e780000 0x1000>;
 				interrupts = <20>;
-				interrupt-controller;
-				gpio-ranges = <&pinctrl 0 0 232>;
+				gpio-ranges = <&pinctrl 0 0 220>;
 			};
 
 			timer: timer@1e782000 {
@@ -1127,6 +1113,146 @@
 				no-loopback-test;
 				status = "disabled";
 			};
+
+			pwm-tacho-controller@1e786000 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				reg = <0x1e786000 0x1000>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default>;
+				compatible = "aspeed,aspeed2500-pwm-tacho";
+				clocks = <&clk_apb>;
+				type-values {
+						typem {
+							type = /bits/ 8 <0x00>;
+							pwm-period = /bits/ 8 <0x5F>;
+							pwm-clock-division-h = /bits/ 8 <0x00>;
+							pwm-clock-division-l = /bits/ 8 <0x05>;
+							fan-tach-type-enable;
+							fan-tach-clock-division = /bits/ 8 <0x00>;
+							fan-tach-mode-selection = /bits/ 8 <0x00>;
+							fan-tach-period = /bits/ 16 <0x1000>;
+						};
+				};
+
+				pwm-port {
+						pwm-port0 {
+							pwm-port = /bits/ 8 <0x00>;
+							type = /bits/ 8 <0x00>;
+							fan-ctrl = /bits/ 8 <0xFF>;
+						};
+
+						pwm-port1 {
+							pwm-port = /bits/ 8 <0x01>;
+							type = /bits/ 8 <0x00>;
+							fan-ctrl = /bits/ 8 <0xFF>;
+						};
+				};
+
+				fan-tach-channel {
+						fan-tach0 {
+							fan-ctrl = <&gpio ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
+							fan-tach = /bits/ 8 <0x00>;
+							pwm-source = /bits/ 8 <0x00>;
+						};
+
+						fan-tach1 {
+							fan-ctrl = <&gpio ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
+							fan-tach = /bits/ 8 <0x01>;
+							pwm-source = /bits/ 8 <0x01>;
+						};
+				};
+			};
+
+			adc@1e6e9000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				compatible = "aspeed, ast2500-adc";
+				reg = <0x1e6e9000 0xB0>;
+				clocks = <&clk_apb>;
+				update-interval-ms = <1000>;
+				
+				adc0: chennel@0 {
+					reg = <0>;
+					pinctrl-names = "default";
+					pinctrl-0 = <&pinctrl_adc0_default>;
+				};
+                adc1: chennel@1 {
+                    reg = <1>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc1_default>;
+                };
+                adc2: chennel@2 {
+                    reg = <2>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc2_default>;
+                };
+                adc3: chennel@3 {
+                    reg = <3>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc3_default>;
+                };
+                adc4: chennel@4 {
+                    reg = <4>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc4_default>;
+                };
+                adc5: chennel@5 {
+                    reg = <5>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc5_default>;
+                };
+                adc6: chennel@6 {
+                    reg = <6>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc6_default>;
+                };
+                adc7: chennel@7 {
+                    reg = <7>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc7_default>;
+                };
+                adc8: chennel@8 {
+                    reg = <8>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc8_default>;
+                };
+                adc9: chennel@9 {
+                    reg = <9>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc9_default>;
+                };
+                adc10: chennel@10 {
+                    reg = <10>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc10_default>;
+                };
+                adc11: chennel@11 {
+                    reg = <11>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc11_default>;
+                };
+                adc12: chennel@12 {
+                    reg = <12>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc12_default>;
+                };
+                adc13: chennel@13 {
+                    reg = <13>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc13_default>;
+                };
+                adc14: chennel@14 {
+                    reg = <14>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc14_default>;
+                };
+                adc15: chennel@15 {
+                    reg = <15>;
+                    pinctrl-names = "default";
+                    pinctrl-0 = <&pinctrl_adc15_default>;
+                };
+			};			
 
 			i2c: i2c@1e78a000 {
 				#address-cells = <1>;
