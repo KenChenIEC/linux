@@ -177,7 +177,13 @@
 
 	/* RTC DS3231 @68h	 */
 };
+&pwm-port0 {
+	status = "okay";
+};
 
+&fan-tach-channel {
+	statis = "okay";
+};
 &i2c1 {
 	status = "disable";
 
