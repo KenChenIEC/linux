@@ -163,9 +163,6 @@
 	label = "BMC_BRD_BMC_ID";
 };
 
-&pwm-port0 {
-	status = "okay";
-};
 &i2c0 {
 	status = "okay";
 
@@ -177,9 +174,6 @@
 	/* RTC DS3231 @68h	 */
 };
 
-&fan-tach-channel {
-	status = "okay";
-};
 &i2c1 {
 	status = "disable";
 
