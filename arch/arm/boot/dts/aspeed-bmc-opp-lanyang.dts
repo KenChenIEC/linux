@@ -82,6 +82,99 @@
 			lable = "Sys_fault";
 			gpios = <&gpio ASPEED_GPIO(H, 7) GPIO_ACTIVE_HIGH>;
 		};
+    };
+        pwm_tacho: pwm-tacho-controller@2e786000 {
+                #address-cells = <1>;
+                #size-cells = <1>;
+                reg = <0x1E786000 0x1000>;
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default
+                 &pinctrl_pwm2_default &pinctrl_pwm3_default
+                 &pinctrl_pwm4_default &pinctrl_pwm5_default>;
+                compatible = "aspeed,aspeed2500-pwm-tacho";
+                clocks = <&pwm_tacho_fixed_clk>;
+                type-values {
+                        typem {
+                                type = /bits/ 8 <0x00>;
+                                pwm-period = /bits/ 8 <0x5F>;
+                                pwm-clock-division-h = /bits/ 8 <0x00>;
+                                pwm-clock-division-l = /bits/ 8 <0x05>;
+                                fan-tach-type-enable;
+                               fan-tach-clock-division = /bits/ 8 <0x00>;
+                                fan-tach-mode-selection = /bits/ 8 <0x00>;
+                                fan-tach-period = /bits/ 16 <0x1000>;
+                        };
+                };
+                pwm-port {
+                        pwm-port0 {
+                                pwm-port = /bits/ 8 <0x00>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+                        pwm-port1 {
+                                pwm-port = /bits/ 8 <0x01>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+                        pwm-port2 {
+                                pwm-port = /bits/ 8 <0x02>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+                        pwm-port3 {
+                                pwm-port = /bits/ 8 <0x03>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+                        pwm-port4 {
+                                pwm-port = /bits/ 8 <0x04>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+                        pwm-port5 {
+                                pwm-port = /bits/ 8 <0x05>;
+                                type = /bits/ 8 <0x00>;
+                                fan-ctrl = /bits/ 8 <0xFF>;
+                        };
+               };
+               fan-tach-channel {
+                        fan-tach0 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x00>;
+                                pwm-source = /bits/ 8 <0x00>;
+                        };
+                        fan-tach1 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x01>;
+                                pwm-source = /bits/ 8 <0x01>;
+                        };
+                        fan-tach2 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 2) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x02>;
+                               pwm-source = /bits/ 8 <0x02>;
+                        };
+                        fan-tach3 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 3) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x03>;
+                                pwm-source = /bits/ 8 <0x03>;
+                        };
+                        fan-tach4 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 4) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x04>;
+                                pwm-source = /bits/ 8 <0x04>;
+                        };
+                        fan-tach5 {
+                                fanctrl-gpios = <&gpio
+                                         ASPEED_GPIO(O, 5) GPIO_ACTIVE_HIGH>;
+                                fan-tach = /bits/ 8 <0x05>;
+                                pwm-source = /bits/ 8 <0x05>;
+                        };
+                };
 	};
 
 	fsi-master {
@@ -95,6 +188,103 @@
 		enable-gpios = <&gpio ASPEED_GPIO(D, 0) GPIO_ACTIVE_HIGH>;
 		mux-gpios = <&gpio ASPEED_GPIO(H, 2) GPIO_ACTIVE_HIGH>;
 	};
+
+    pwm_tacho: pwm-tacho-controller@2e786000 {
+        #address-cells = <1>;
+        #size-cells = <1>;
+        reg = <0x1E786000 0x1000>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_pwm0_default &pinctrl_pwm1_default
+         &pinctrl_pwm2_default &pinctrl_pwm3_default
+         &pinctrl_pwm4_default &pinctrl_pwm5_default>;
+        compatible = "aspeed,aspeed2500-pwm-tacho";
+        clocks = <&pwm_tacho_fixed_clk>;
+        type-values {
+            typem {
+                type = /bits/ 8 <0x00>;
+                pwm-period = /bits/ 8 <0x5F>;
+                pwm-clock-division-h = /bits/ 8 <0x00>;
+                pwm-clock-division-l = /bits/ 8 <0x05>;
+                fan-tach-type-enable;
+                fan-tach-clock-division = /bits/ 8 <0x00>;
+                fan-tach-mode-selection = /bits/ 8 <0x00>;
+                fan-tach-period = /bits/ 16 <0x1000>;
+            };
+        };
+
+        pwm-port {
+            pwm-port0 {
+                pwm-port = /bits/ 8 <0x00>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+            pwm-port1 {
+                pwm-port = /bits/ 8 <0x01>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+            pwm-port2 {
+                pwm-port = /bits/ 8 <0x02>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+            pwm-port3 {
+                pwm-port = /bits/ 8 <0x03>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+            pwm-port4 {
+                pwm-port = /bits/ 8 <0x04>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+            pwm-port5 {
+                pwm-port = /bits/ 8 <0x05>;
+                type = /bits/ 8 <0x00>;
+                fan-ctrl = /bits/ 8 <0xFF>;
+            };
+        };
+
+        fan-tach-channel {
+            fan-tach0 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 0) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x00>;
+                pwm-source = /bits/ 8 <0x00>;
+            };
+            fan-tach1 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 1) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x01>;
+                pwm-source = /bits/ 8 <0x01>;
+            };
+            fan-tach2 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 2) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x02>;
+                pwm-source = /bits/ 8 <0x02>;
+            };
+            fan-tach3 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 3) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x03>;
+                pwm-source = /bits/ 8 <0x03>;
+            };
+            fan-tach4 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 4) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x04>;
+                pwm-source = /bits/ 8 <0x04>;
+            };
+            fan-tach5 {
+                fanctrl-gpios = <&gpio
+                     ASPEED_GPIO(O, 5) GPIO_ACTIVE_HIGH>;
+                fan-tach = /bits/ 8 <0x05>;
+                pwm-source = /bits/ 8 <0x05>;
+            };
+        };
+    };
+>>>>>>> a8453f2... add pwm/tach
 };
 
 &fmc {
