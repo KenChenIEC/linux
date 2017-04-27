@@ -247,18 +247,6 @@ static void __init do_lanyang_setup(void)
 
         do_common_setup();
 
-        /* Setup PNOR address mapping for 64M flash
-         *
-         *   ADRBASE: 0x3000 (0x30000000)
-         *   HWMBASE: 0x0C00 (0x0C000000)
-         *  ADDRMASK: 0xFC00 (0xFC000000)
-         *   HWNCARE: 0x03FF (0x03FF0000)
-         *
-         * Mapping appears at 0x60300fc000000 on the host
-         */
-        writel(0x30000C00, AST_IO(AST_BASE_LPC | 0x88));
-        writel(0xFC0003FF, AST_IO(AST_BASE_LPC | 0x8C));
-
         /* Disable default behavior of UART1 being held in reset by LPCRST#.
          * By releasing UART1 from being controlled by LPC reset, it becomes
          * immediately available regardless of the host being up.
